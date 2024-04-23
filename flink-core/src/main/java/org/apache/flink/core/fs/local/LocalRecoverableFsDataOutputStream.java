@@ -115,6 +115,9 @@ public class LocalRecoverableFsDataOutputStream extends RecoverableFsDataOutputS
 
     @Override
     public Committer closeForCommit() throws IOException {
+        flush();
+        sync();
+
         final long pos = getPos();
         close();
         return new LocalCommitter(new LocalRecoverable(targetFile, tempFile, pos));
